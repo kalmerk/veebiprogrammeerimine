@@ -2,7 +2,14 @@
 	//see on kommentaar, järgmisena paar muutujad
 	$myName = "Kalmer";
 	$myFamilyName = "Kaarjas";
-	//vaatame, mis kell on ja määrame päeva osa
+	
+	$monthNamesEt = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
+	
+//	var_dump($monthNamesEt);
+//	echo($monthNamesEt[11]);
+	$monthNow = $monthNamesEt[date("n")-1];
+//	echo($monthNow);
+//	vaatame, mis kell on ja määrame päeva osa
 	$hourNow = date("H");
 //	echo $hourNow;
 	$partOfDay = "";
@@ -20,13 +27,41 @@
 	}		
 //	echo $partOfDay;
 
-//vaatame, kaua koolipäeva lõpuni aega jäänud
+//	vaatame, kaua koolipäeva lõpuni aega jäänud
 	$timeNow = strtotime(date("d.m.Y H:i:s"));
 //	echo $timeNow;
 	$schoolDayEnd = strtotime(date("d.m.Y"." "."15:45"));
 //	echo $schoolDayEnd;
 	$toTheEnd = $schoolDayEnd - $timeNow;
-	echo (round($toTheEnd / 60));
+//	echo (round($toTheEnd / 60));
+
+//	tegeleme vanusega
+	$myBirthYear;
+	$ageNotice = "";
+//	var_dump($_POST);
+	if(isset($_POST["birthYear"]))
+	{
+		$myBirthYear = $_POST["birthYear"];
+		$myAge = date("Y") - $_POST["birthYear"];
+//		echo $myAge;
+		$ageNotice = "<p>Teie vanus on ligikaudu " . $myAge . " aastat.</p>";
+		
+		$ageNotice .= "<p>Olete elanud järgnevatel aastatel:</p>";
+		$ageNotice .= "\n<ul> \n";
+		
+		$yearNow = date("Y");
+		for($i = $myBirthYear; $i <= $yearNow; $i++)
+		{
+			//echo ("<li>" . $i . "</li>");
+			$ageNotice .= "<li>" .$i . "</li>\n";
+		}
+			$ageNotice .= "</ul>\n";		
+	}
+	//teeme tsükli
+/*	for($i = 0; $i < 50; $i++)
+	{
+		echo "ha";
+	}*/	
 ?>
 
 <!DOCTYPE html>
@@ -40,18 +75,27 @@
 		<?php
 			echo $myName ." " .$myFamilyName;
 		?>
-	veebiprogrammeerimine</h1>
+		veebiprogrammeerimine
+	</h1>
 		<p>See leht on loodud õppetöö raames ning ei sisalda mingit tõsiseltvõetavat sisu.</p>
-    <h2>Informatsioon</h2>
-        <p>Esimene info.</p>
-        <p>Teine info.</p>
-        <p>Kolmas info.</p>
 	<?php
 		echo "<p>See on esimene jupp PHP abil väljastatud tektsti!</p>";
 		echo "<p>Täna on ";
-		echo date("d.m.Y"),", kell lehe avamisel oli " .date("H.i.s");
+		echo date("d. ") . $monthNow . date(" Y"),", kell lehe avamisel oli " .date("H.i.s");
 		echo ", käes on ".$partOfDay.".</p>";
-//		echo "<p>Koolipäeva lõpuni on".(round($toTheEnd / 60))." ""minutit"."</p>";
+	?>
+	
+	<h2>Natuke aastaarvudest</h2>
+	<form method="POST">
+		<label>Teie sünniaasta:</label>
+		<input type="number" name="birthYear" min="1900" max="2017" value="<?php echo $myBirthYear; ?>">
+		<input type="submit" name="submitBirthYear" value="Kinnita">
+	</form>
+	<?php
+		if($ageNotice != "")
+		{
+			echo ($ageNotice);
+		}
 	?>
 </body>
 </html>

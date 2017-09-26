@@ -1,11 +1,21 @@
 <?php
 	$picsDir = "../../pics/";
+	$picFileTypes = ["jpg", "jpeg", "png", "gif"];
 	$picFiles = [];
-	$allFiles = scandir($picsDir);;
-	$picFiles = array_slice($allFiles, 2);
+	$allFiles = array_slice(scandir($picsDir), 2);
+	foreach($allFiles as $file) 
+	{
+		$fileType =  pathinfo($file, PATHINFO_EXTENSION);
+		if(in_array($fileType, $picFileTypes) == true)
+		{
+			array_push($picFiles, $file);
+		}
+	}
+//	$picFiles = array_slice($allFiles, 2);
 	$picCount = count($picFiles);
 	$picNum = mt_rand(0, ($picCount -1));
 	$picFile = $picFiles[$picNum];
+//	var_dump($picFiles);
 ?>
 
 <!DOCTYPE html>

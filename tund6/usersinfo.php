@@ -49,6 +49,7 @@
 	<h1><?php echo $_SESSION["userFirstName"] . " " . $_SESSION["userLastName"] ?> </h1>
 	<p>See leht on loodud õppetöö raames ning ei sisalda mingit tõsiseltvõetavat sisu.</p>
 	<p><a href="?logout=1">Logi välja!</a></p>
+	<p><a href="main.php">Esilehele</a></p>
 	<?php createTable(); ?>
 	<p><img src="<?php echo $picsDir .$picFile; ?>" alt="Tallinna ülikool"> </p>
 	
